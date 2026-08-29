@@ -10,4 +10,6 @@ Route::get('/greet/{name}', [WelcomeController::class, 'greet']);
 Route::get('/ping', function () {
     return response()->json(['pong' => true, 'time' => now()]);
 });
-
+Route::get('/team', function () {
+    return 'این تغییر برای تست هم‌تیمی من است!';
+});
