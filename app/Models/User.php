@@ -2,31 +2,38 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $table = 'users';
+
+    protected $primaryKey = 'user_id';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'username',
+        'password',
+        'full_name',
+        'phone',
+        'role',
+    ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    public function orders()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'user_id', 'user_id');
     }
 }
