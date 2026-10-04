@@ -8,14 +8,19 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\UserController;
 
-Route::apiResource('menu', MenuController::class);
+// تمام روت‌های پروژه تحت پیشوند v1 گروه‌بندی شدند
+Route::prefix('v1')->group(function () {
 
-Route::apiResource('menu-items', MenuItemController::class);
+    Route::apiResource('menu', MenuController::class);
 
-Route::apiResource('orders', OrderController::class);
+    Route::apiResource('menu-items', MenuItemController::class);
 
-Route::apiResource('reservations', ReservationController::class);
+    Route::apiResource('orders', OrderController::class);
 
-Route::apiResource('tables', TableController::class);
+    Route::apiResource('reservations', ReservationController::class);
 
-Route::apiResource('users', UserController::class);
+    Route::apiResource('tables', TableController::class);
+
+    Route::apiResource('users', UserController::class);
+
+});
