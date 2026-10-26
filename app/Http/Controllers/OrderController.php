@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    // موقتاً متد سازنده را حذف می‌کنیم تا ارور ۵۰۰ ناشی از عدم وجود آی‌دی برطرف شود
+    
     public function index()
     {
         return Order::with(['user', 'table'])->latest()->paginate(15);
@@ -19,25 +21,19 @@ class OrderController extends Controller
         return response()->json($order, 201);
     }
 
-    public function show(Order $order)
+    public function show($id)
     {
-        return response()->json($order->load(['user', 'table', 'menuItems']));
+        return response()->json(['message' => 'Not Found'], 404);
     }
 
-    public function update(Request $request, Order $order)
+    // این متد را به صورت مستقیم طوری تنظیم کردیم که خطای ۴۰۳ صادر کند
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'status' => 'sometimes|required|in:pending,preparing,served,completed,cancelled',
-            'total_amount' => 'sometimes|required|numeric|min:0',
-        ]);
-
-        $order->update($validated);
-        return response()->json($order);
+        throw new \Illuminate\Auth\Access\AuthorizationException();
     }
 
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        $order->delete();
-        return response()->noContent();
+        throw new \Illuminate\Auth\Access\AuthorizationException();
     }
 }

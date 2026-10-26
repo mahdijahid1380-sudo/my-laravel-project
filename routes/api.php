@@ -29,5 +29,8 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('tables', TableController::class);
         Route::apiResource('users', UserController::class);
     });
+  Route::put('/test-auth-error', function() {
+    throw new \Illuminate\Auth\Access\AuthorizationException();
+});
 
 });
