@@ -26,4 +26,12 @@ class Menu extends Model
     {
         return $this->hasMany(MenuItem::class, 'menu_id', 'menu_id');
     }
+
+    /**
+     * این متد به لاراول می‌گوید که در آدرس‌ها به جای id پیش‌فرض، از ستون menu_id استفاده کند.
+     */
+    public function getRouteKeyName()
+    {
+        return 'menu_id';
+    }
 }

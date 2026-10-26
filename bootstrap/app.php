@@ -16,7 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // استانداردسازی پاسخ خطای ۴۰۴ برای مسیرهای API طبق مستندات هفته ششم
+        
+        // ۱. استانداردسازی خطای ۴۰۴ از هفته ششم
         $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
@@ -25,4 +26,15 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 404);
             }
         });
+
+        // ۲. استانداردسازی خطای ۴۰۱ عدم احراز هویت برای هفته هفتم
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Authentication required',
+                    'errors'  => new \stdClass(),
+                ], 401);
+            }
+        });
+        
     })->create();
